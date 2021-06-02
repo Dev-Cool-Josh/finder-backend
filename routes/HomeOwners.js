@@ -6,8 +6,11 @@ const router = express.Router();
 const { HomeOwners, validateHomeOwners } = require("../models/HomeOwners");
 
 //get all the homeOwners
-router.get("/", (req, res) => {
-  res.send("we are on home owners");
+router.get("/", async (req, res) => {
+  const homeOwner = await HomeOwners.find();
+  if (!homeOwner)
+    return res.status(404).send("No registered home owners account yet");
+  res.status(200).send(homeOwner);
 });
 
 //register the home owners account
@@ -30,7 +33,6 @@ router.get("/:id", async (req, res) => {
   const homeOwner = await HomeOwners.findById(req.params.id).select(
     "-password"
   );
-
   if (!homeOwner) return res.status(404).send("Not Found");
   res.status(200).send(homeOwner);
 });
