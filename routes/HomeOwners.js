@@ -25,4 +25,29 @@ router.post("/", async (req, res) => {
   res.status(200).send(_.pick(homeOwner, ["_id", "email", "name", "password"]));
 });
 
+//getting the current home owners
+router.get("/:id", async (req, res) => {
+  const homeOwner = await HomeOwners.findById(req.params.id).select(
+    "-password"
+  );
+
+  if (!homeOwner) return res.status(404).send("Not Found");
+  res.status(200).send(homeOwner);
+});
+
+//delete homeOwners account
+router.delete("/:id", async (req, res) => {
+  const homeOwner = await HomeOwners.findByIdAndDelete(req.params.id);
+  if (!homeOwner) return res.status(404).send("Not Found");
+  res.status(200).send(homeOwner);
+});
+
+//update homeOwners information
+router.put("/:id", async (req, res) => {
+  const homeOwner = await HomeOwners.findByIdAndUpdate(req.params.id, req.body);
+  if (!homeOwner)
+    return res.status(404).send("User with the given ID does not exist");
+  res.send(homeOwner);
+});
+
 module.exports = router;

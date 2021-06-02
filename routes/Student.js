@@ -58,15 +58,25 @@ router.get("/", async (req, res) => {
   return res.send(student);
 });
 
+//get the current student
+router.get("/:id", async (req, res) => {
+  const student = await Student.findById(req.params.id).select("-password");
+  if (!student) return res.status(404).send("Not Found");
+  res.status(200).send(student);
+});
+
 //update student info
-router.patch("/:id", async (req, res) => {
-  res.send("updated");
+router.put("/:id", async (req, res) => {
+  const student = await Student.findByIdAndUpdate(req.params.id, req.body);
+  if (!student) return res.status(404).send("Not Found");
+  res.status(200).send(student);
 });
 
 //delete student
-
 router.delete("/:id", async (req, res) => {
-  res.send("deleted");
+  const student = await Student.findByIdAndDelete(req.params.id);
+  if (!student) return res.status(404).send("Not Found");
+  res.status(200).send(student);
 });
 
 module.exports = router;
