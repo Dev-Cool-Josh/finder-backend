@@ -1,12 +1,21 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
+const SECRET_TOKEN = process.env.SECRET_TOKEN;
+
 const admin = new mongoose.Schema({
   email: String,
   name: String,
   password: String,
 });
 
+admin.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    { _id: admin._id, name: admin.name, email: admin.email },
+    SECRET_TOKEN
+  );
+  return token;
+};
 const Admin = mongoose.model("Admin", admin);
 
 function validateAdmin(admin) {

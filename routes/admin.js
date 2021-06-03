@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
 
   admin = new Admin(_.pick(req.body, ["email", "name", "password"]));
   await admin.save();
-  res.status(200).send(_.pick(admin, ["_id", "email", "name", "password"]));
+  res.send(_.pick(admin, ["_id", "email", "name", "password"]));
 });
 
 module.exports = router;

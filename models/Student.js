@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const Joi = require("joi");
+
+const SECRET_TOKEN = process.env.SECRET_TOKEN;
 
 const studentSchema = new mongoose.Schema({
   studentNumber: String,
@@ -7,6 +10,18 @@ const studentSchema = new mongoose.Schema({
   password: String,
   email: { type: String, default: "sample@gmail.com" },
 });
+
+studentSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    {
+      _id: this._id,
+      studentName: this.studentName,
+      email: this.email,
+    },
+    SECRET_TOKEN
+  );
+  return token;
+};
 
 const Student = mongoose.model("Student", studentSchema);
 

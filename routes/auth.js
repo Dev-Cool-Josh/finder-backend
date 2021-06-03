@@ -1,18 +1,16 @@
 const express = require("express");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 const { Student } = require("../models/Student");
 const { HomeOwners } = require("../models/HomeOwners");
 const { Admin } = require("../models/Admin");
 
-const SECRET_TOKEN = process.env.SECRET_TOKEN;
 //student auth
 router.post("/student", async (req, res) => {
   const { error } = validateStudent(req.body);
-  if (error) return res.send(400).send(error.details[0].message);
+  if (error) return res.status(400).send(error.details[0].message);
 
   const student = await Student.findOne({
     studentNumber: req.body.studentNumber,
@@ -25,14 +23,7 @@ router.post("/student", async (req, res) => {
   );
   if (!validPassword)
     return res.status(400).send("Invalid student number or password");
-  const token = jwt.sign(
-    {
-      _id: student._id,
-      studentName: student.studentName,
-      email: student.email,
-    },
-    SECRET_TOKEN
-  );
+  const token = student.generateAuthToken();
   res.send(token);
 });
 
@@ -45,10 +36,7 @@ router.post("/homeOwner", async (req, res) => {
   if (!homeOwner) return res.status(400).send("Invalid email or password");
   const validPassword = bcrypt.compare(req.body.password, homeOwner.password);
   if (!validPassword) return res.status(400).send("Invalid email or password");
-  const token = jwt.sign(
-    { _id: homeOwner._id, name: homeOwner.name, email: homeOwner.email },
-    SECRET_TOKEN
-  );
+  const token = homeOwner.generateAuthToken();
   res.send(token);
 });
 
@@ -61,17 +49,14 @@ router.post("/admin", async (req, res) => {
   if (!admin) return res.status(400).send("Invalid email or password");
   if (req.body.password != admin.password)
     return res.status(400).send("Invalid email or password");
-  const token = jwt.sign(
-    { _id: admin._id, name: admin.name, email: admin.email },
-    SECRET_TOKEN
-  );
+  const token = admin.generateAuthToken();
   res.send(token);
 });
 
 //validate functions
 function validateStudent(student) {
   const schema = {
-    studentNumber: Joi.string().required().max(8).min(8),
+    studentNumber: Joi.string().required().min(8).max(8),
     password: Joi.string().required().min(8),
   };
   return Joi.validate(student, schema);
