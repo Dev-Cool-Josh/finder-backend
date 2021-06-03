@@ -7,12 +7,16 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 const DB_CONNECTION = process.env.DB_CONNECTION;
 
-const student = require("./routes/Student");
-const homeOwners = require("./routes/HomeOwners");
+const student = require("./routes/student");
+const homeOwners = require("./routes/homeOwners");
+const admin = require("./routes/admin");
+const auth = require("./routes/auth");
 
 app.use(express.json());
 app.use("/api/students", student);
 app.use("/api/homeOwners", homeOwners);
+app.use("/api/admin", admin);
+app.use("/api/auth", auth);
 
 mongoose
   .connect(DB_CONNECTION, {
