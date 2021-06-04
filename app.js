@@ -9,12 +9,15 @@ const DB_CONNECTION = process.env.DB_CONNECTION;
 
 const student = require("./routes/student");
 const homeOwners = require("./routes/homeOwners");
+const post = require("./routes/post");
 const admin = require("./routes/admin");
 const auth = require("./routes/auth");
 
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 app.use("/api/students", student);
 app.use("/api/homeOwners", homeOwners);
+app.use("/api/homeOwners/post", post);
 app.use("/api/admin", admin);
 app.use("/api/auth", auth);
 
