@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+
 const postSchema = new mongoose.Schema({
   postOwner: String,
   postDate: { type: Date, default: Date.now },

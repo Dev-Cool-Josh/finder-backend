@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 });
 
 //register the home owners account
-router.post("/", async (req, res) => {
+router.post("/register", async (req, res) => {
   const { error } = validateHomeOwners(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 

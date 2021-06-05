@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const app = express();
 
 dotenv.config();
@@ -15,9 +16,10 @@ const auth = require("./routes/auth");
 
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
+app.use(cors());
 app.use("/api/students", student);
 app.use("/api/homeOwners", homeOwners);
-app.use("/api/homeOwners/post", post);
+app.use("/api/posts", post);
 app.use("/api/admin", admin);
 app.use("/api/auth", auth);
 

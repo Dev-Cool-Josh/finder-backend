@@ -9,7 +9,7 @@ const { validateStudent, Student } = require("../models/Student");
 const { json } = require("body-parser");
 
 //student registration
-router.post("/", async (req, res) => {
+router.post("/register", async (req, res) => {
   const { error } = validateUser(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -45,9 +45,7 @@ router.post("/", async (req, res) => {
         "password",
       ])
     );
-  }
-
-  res.status(400).send("This student does not exist");
+  } else res.status(404).send("This student does not exist");
 });
 
 //get all the students

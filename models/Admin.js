@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 
 const SECRET_TOKEN = process.env.SECRET_TOKEN;

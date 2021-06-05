@@ -42,4 +42,25 @@ router.post("/", mulitpleImage, async (req, res) => {
   res.send(data);
 });
 
+//get all the post
+router.get("/", async (req, res) => {
+  const posts = await Post.find();
+  if (!posts) return res.status(404).send("There is currently no post!");
+  return res.send(posts);
+});
+
+//get all the post by gender
+router.get("/:gender", async (req, res) => {
+  const posts = await Post.find({ gender: req.params.gender });
+  if (!posts)
+    return res.status(404).send("There is no post with this gender yet");
+  return res.send(posts);
+});
+
+router.delete("/:id", async (req, res) => {
+  const post = await Post.findByIdAndDelete({ _id: req.params.id });
+  if (!post) return res.status(404).send("This post does not exist");
+  return res.send(post);
+});
+
 module.exports = router;
