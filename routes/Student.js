@@ -6,7 +6,6 @@ const _ = require("lodash");
 
 const { User, validateUser } = require("../models/User");
 const { validateStudent, Student } = require("../models/Student");
-const { json } = require("body-parser");
 
 //student registration
 router.post("/register", async (req, res) => {
@@ -75,6 +74,17 @@ router.delete("/:id", async (req, res) => {
   const student = await Student.findByIdAndDelete(req.params.id);
   if (!student) return res.status(404).send("Not Found");
   res.status(200).send(student);
+});
+
+//add bookmark
+router.patch("/add-bookmark/:id", async (req, res) => {
+  const student = await Student.findById(req.params.id);
+  if (!student) return res.status(404).send("not found");
+  if (student.bookmarks.find((bookmark) => bookmark === req.body.postId))
+    return res.status(400).send("already added");
+  student.bookmarks.push(req.body.postId);
+  await student.save();
+  res.send(student);
 });
 
 module.exports = router;

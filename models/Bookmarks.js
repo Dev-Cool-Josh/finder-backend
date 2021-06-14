@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-const postSchema = new mongoose.Schema({
+const bookmarkSchema = new mongoose.Schema({
+  _id: String,
+  postId: String,
   postOwner: { type: String },
   postDate: { type: Date, default: Date.now },
-  isFull:{type:Boolean, default:false},
   isVerified: { type: Boolean, default: false },
   price: { type: String },
   contact: { type: String },
   gender: { type: String },
   vacancy: { type: Number },
   roomImage: { type: String },
-  permit: { type: String },
   address: {
     houseNumber: { type: String },
     street: { type: String },
@@ -20,19 +20,21 @@ const postSchema = new mongoose.Schema({
   },
 });
 
-const Post = new mongoose.model("Post", postSchema);
+const Bookmarks = mongoose.model("Bookmarks", bookmarkSchema);
 
-function validatePost(post) {
+function validateBookmarks(req) {
   const schema = {
     postOwner: Joi.string().required().min(8),
     price: Joi.string().required(),
     contact: Joi.string().required(),
     gender: Joi.string().required(),
-    vacancy: Joi.string().required(),
+    vacancy: Joi.number().required(),
+    roomImage: Joi.string().required(),
+    isVerified: Joi.boolean().required(),
   };
-
-  return Joi.validate(post, schema);
+  return Joi.validate(req, schema);
 }
 
-exports.Post = Post;
-exports.validatePost = validatePost;
+exports.bookmarkSchema = bookmarkSchema;
+exports.Bookmarks = Bookmarks;
+exports.validate = validateBookmarks;

@@ -12,7 +12,7 @@ const admin = new mongoose.Schema({
 
 admin.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { _id: admin._id, name: admin.name, email: admin.email },
+    { _id: this._id, name: this.name, email: this.email },
     SECRET_TOKEN
   );
   return token;

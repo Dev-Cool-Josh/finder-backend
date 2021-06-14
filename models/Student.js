@@ -5,6 +5,7 @@ const Joi = require("joi");
 const SECRET_TOKEN = process.env.SECRET_TOKEN;
 
 const studentSchema = new mongoose.Schema({
+  bookmarks: [],
   studentNumber: String,
   studentName: String,
   password: String,
