@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 
 const { HomeOwners, validateHomeOwners } = require("../models/HomeOwners");
+const { Notification } = require("../models/Norification");
 
 //get all the homeOwners
 router.get("/", async (req, res) => {
@@ -50,6 +51,14 @@ router.put("/:id", async (req, res) => {
   if (!homeOwner)
     return res.status(404).send("User with the given ID does not exist");
   res.send(homeOwner);
+});
+
+router.get("/notification/:userName", async (req, res) => {
+  const notifications = await Notification.find({
+    receiver: req.params.userName,
+  });
+  if (!notifications) return res.status(404).send("No notifications yet");
+  res.send(notifications);
 });
 
 module.exports = router;

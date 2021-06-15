@@ -93,4 +93,12 @@ router.patch("/verify/:id", async (req, res) => {
   res.send(post);
 });
 
+router.patch("/mark-as-full/:id", async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  if (!post) return res.status(400).send("invalid id");
+  post.isFull = true;
+  await post.save();
+  return res.send(post);
+});
+
 module.exports = router;
