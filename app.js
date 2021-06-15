@@ -8,7 +8,7 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 const DB_CONNECTION = process.env.DB_CONNECTION;
 
-const student = require("./routes/student");
+const students = require("./routes/students");
 const homeOwners = require("./routes/homeOwners");
 const post = require("./routes/post");
 const bookmarks = require("./routes/bookmarks");
@@ -18,7 +18,7 @@ const auth = require("./routes/auth");
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 app.use(cors());
-app.use("/api/students", student);
+app.use("/api/students", students);
 app.use("/api/homeOwners", homeOwners);
 app.use("/api/bookmarks", bookmarks);
 app.use("/api/posts", post);
