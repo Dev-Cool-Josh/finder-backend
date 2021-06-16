@@ -101,4 +101,11 @@ router.patch("/mark-as-full/:id", async (req, res) => {
   return res.send(post);
 });
 
+//get not full posts
+router.get("/is-not-full", async (req, res) => {
+  const post = await Post.find({ isFull: false });
+  if (!post) return res.status(400).send("no posts yet");
+  res.send(post);
+});
+
 module.exports = router;

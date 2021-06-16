@@ -5,6 +5,7 @@ const router = express.Router();
 
 const { HomeOwners, validateHomeOwners } = require("../models/HomeOwners");
 const { Notification } = require("../models/Norification");
+const { Post } = require("../models/Post");
 
 //get all the homeOwners
 router.get("/", async (req, res) => {
@@ -59,6 +60,13 @@ router.get("/notification/:userName", async (req, res) => {
   });
   if (!notifications) return res.status(404).send("No notifications yet");
   res.send(notifications);
+});
+
+//get posts request
+router.get("/post-requests/:userName", async (req, res) => {
+  const posts = await Post.find({ postOwner: req.params.userName });
+  if (!posts) return res.status(400).send("No posts yet");
+  return res.send(posts);
 });
 
 module.exports = router;
