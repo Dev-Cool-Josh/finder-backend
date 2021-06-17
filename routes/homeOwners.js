@@ -1,11 +1,31 @@
 const express = require("express");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
+const multer = require("multer");
 const router = express.Router();
 
 const { HomeOwners, validateHomeOwners } = require("../models/HomeOwners");
 const { Notification } = require("../models/Norification");
 const { Post } = require("../models/Post");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./avatars/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
+
+router.patch("/:id", upload.single("avatar"), async (req, res) => {
+  const homeOwner = await HomeOwners.findById(req.params.id);
+  if (!homeOwner) return res.status(400).send("this user doesn't exist");
+  homeOwner.avatar = req.file.path;
+  homeOwner.contact = req.body.contact;
+  await homeOwner.save();
+  return res.send(homeOwner);
+});
 
 //get all the homeOwners
 router.get("/", async (req, res) => {

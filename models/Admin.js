@@ -8,6 +8,7 @@ const admin = new mongoose.Schema({
   email: String,
   name: String,
   password: String,
+  contact: String,
 });
 
 admin.methods.generateAuthToken = function () {

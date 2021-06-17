@@ -8,6 +8,8 @@ const homeOwnersSchema = new mongoose.Schema({
   email: String,
   name: String,
   password: String,
+  avatar: String,
+  contact: String,
 });
 
 homeOwnersSchema.methods.generateAuthToken = function () {

@@ -10,6 +10,8 @@ const studentSchema = new mongoose.Schema({
   studentName: String,
   password: String,
   email: { type: String, default: "sample@gmail.com" },
+  avatar: String,
+  contact: String,
 });
 
 studentSchema.methods.generateAuthToken = function () {

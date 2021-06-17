@@ -1,4 +1,5 @@
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
 
 const bcrypt = require("bcrypt");
@@ -6,6 +7,27 @@ const _ = require("lodash");
 
 const { User, validateUser } = require("../models/User");
 const { validateStudent, Student } = require("../models/Student");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./avatars/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
+
+router.patch("/:id", upload.single("avatar"), async (req, res) => {
+  const student = await Student.findById(req.params.id);
+  if (!student) return res.status(400).send("this user does not exist");
+
+  student.avatar = req.file.path;
+  student.contact = req.body.contact;
+  student.email = req.body.email;
+  await student.save();
+  return res.send(student);
+});
 
 //student registration
 router.post("/register", async (req, res) => {
