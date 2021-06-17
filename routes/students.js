@@ -10,7 +10,7 @@ const { validateStudent, Student } = require("../models/Student");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./avatars/");
+    cb(null, "./uploads/");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
