@@ -50,7 +50,7 @@ router.post(
 
 //get all the post
 router.get("/", async (req, res) => {
-  const posts = await Post.find();
+  const posts = await Post.find({ isFull: false });
   if (!posts) return res.status(404).send("There is currently no post!");
   return res.send(posts);
 });
