@@ -26,6 +26,15 @@ router.patch("/:id", upload.single("avatar"), async (req, res) => {
   return res.send(homeOwner);
 });
 
+router.patch("/information/:id", async (req, res) => {
+  const homeOwner = await HomeOwners.findById(req.params.id);
+  if (!homeOwner) return res.status(400).send("Invalid Id");
+  homeOwner.contact = req.body.contact;
+  homeOwner.email = req.body.email;
+  await homeOwner.save();
+  return res.send(homeOwner);
+});
+
 //get all the homeOwners
 router.get("/", async (req, res) => {
   const homeOwner = await HomeOwners.find();
