@@ -22,7 +22,6 @@ router.patch("/:id", upload.single("avatar"), async (req, res) => {
   const homeOwner = await HomeOwners.findById(req.params.id);
   if (!homeOwner) return res.status(400).send("this user doesn't exist");
   homeOwner.avatar = req.file.path;
-  homeOwner.contact = req.body.contact;
   await homeOwner.save();
   return res.send(homeOwner);
 });

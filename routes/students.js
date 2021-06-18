@@ -18,13 +18,21 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+//update image
 router.patch("/:id", upload.single("avatar"), async (req, res) => {
   const student = await Student.findById(req.params.id);
   if (!student) return res.status(400).send("this user does not exist");
 
   student.avatar = req.file.path;
-  student.contact = req.body.contact;
+  await student.save();
+  return res.send(student);
+});
+
+router.patch("/information/:id", async (req, res) => {
+  const student = await Student.findById(req.params.id);
+  if (!student) return res.status(400).send("invalid user id");
   student.email = req.body.email;
+  student.contact = req.body.contact;
   await student.save();
   return res.send(student);
 });
