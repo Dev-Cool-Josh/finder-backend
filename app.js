@@ -16,8 +16,8 @@ const admin = require("./routes/admin");
 const auth = require("./routes/auth");
 
 app.use(express.json());
-app.use("/uploads", express.static("uploads"));
 app.use(cors());
+app.use("/uploads", express.static("uploads"));
 app.use("/api/students", students);
 app.use("/api/homeOwners", homeOwners);
 app.use("/api/bookmarks", bookmarks);
