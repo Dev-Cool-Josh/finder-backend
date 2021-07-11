@@ -4,7 +4,6 @@ const Joi = require("joi");
 const postSchema = new mongoose.Schema({
   postOwner: { type: String },
   postDate: { type: Date, default: Date.now },
-  isFull:{type:Boolean, default:false},
   isVerified: { type: Boolean, default: false },
   price: { type: String },
   contact: { type: String },

@@ -14,6 +14,7 @@ const post = require("./routes/post");
 const bookmarks = require("./routes/bookmarks");
 const admin = require("./routes/admin");
 const auth = require("./routes/auth");
+const postApplications = require("./routes/postApplications");
 
 app.use(express.json());
 app.use(cors());
@@ -22,6 +23,7 @@ app.use("/api/students", students);
 app.use("/api/homeOwners", homeOwners);
 app.use("/api/bookmarks", bookmarks);
 app.use("/api/posts", post);
+app.use("/api/post-applications", postApplications);
 app.use("/api/admin", admin);
 app.use("/api/auth", auth);
 
