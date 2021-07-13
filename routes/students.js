@@ -7,6 +7,7 @@ const _ = require("lodash");
 
 const { User, validateUser } = require("../models/User");
 const { validateStudent, Student } = require("../models/Student");
+const { Notification } = require("../models/Norification");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -115,6 +116,13 @@ router.patch("/add-bookmark/:id", async (req, res) => {
   student.bookmarks.push(req.body.postId);
   await student.save();
   res.send(student);
+});
+
+//get notifications
+router.get("/get-notifications/:id", async (req, res) => {
+  const notification = await Notification.find({ receiver: req.params.id });
+  if (!notification) return res.status(400).send("no notifications yet");
+  return res.send(notification);
 });
 
 module.exports = router;
